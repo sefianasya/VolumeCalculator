@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText etPanjang, etLebar, etTinggi;
     private Button btnHitung;
     private TextView tvHasil;
+
+    // ViewModel untuk mengelola data volume
     private VolumeViewModel volumeViewModel;
 
     @Override
@@ -44,26 +46,37 @@ public class MainActivity extends AppCompatActivity {
         btnHitung.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hitungVolume();
+                hitungVolume(); // Memanggil metode untuk menghitung volume
             }
         });
     }
 
+    /**
+     * Metode untuk mengambil input panjang, lebar, dan tinggi dari user,
+     * kemudian mengirimkan nilai tersebut ke ViewModel untuk dihitung.
+     */
     private void hitungVolume() {
+        // Mengambil nilai input dari EditText dalam bentuk String
         String panjangStr = etPanjang.getText().toString();
         String lebarStr = etLebar.getText().toString();
         String tinggiStr = etTinggi.getText().toString();
 
+        // Validasi input untuk memastikan tidak ada yang kosong
         if (!panjangStr.isEmpty() && !lebarStr.isEmpty() && !tinggiStr.isEmpty()) {
             try {
+                // Mengonversi input String ke tipe data double
                 double panjang = Double.parseDouble(panjangStr);
                 double lebar = Double.parseDouble(lebarStr);
                 double tinggi = Double.parseDouble(tinggiStr);
+
+                // Mengirim nilai ke ViewModel untuk dihitung
                 volumeViewModel.hitungVolume(panjang, lebar, tinggi);
             } catch (NumberFormatException e) {
+                // Menampilkan pesan error jika input tidak valid (bukan angka)
                 tvHasil.setText("Input tidak valid");
             }
         } else {
+            // Menampilkan pesan error jika ada input yang kosong
             tvHasil.setText("Semua bidang harus diisi!");
         }
     }
